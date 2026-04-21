@@ -1,0 +1,5 @@
+com\example\config\SecurityConfig.class
+com\example\model\Pelanggan.class
+com\example\LoginappApplication.class
+com\example\controller\AuthController.class
+com\example\repository\PelangganRepository.class
