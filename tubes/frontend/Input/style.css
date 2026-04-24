@@ -422,7 +422,7 @@ body {
 .form-input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
-.form-input[type=number] { -moz-appearance: textfield; }
+.form-input[type=number] {-moz-appearance: textfield; }
 
 /* Prefix / Suffix inputs */
 .input-prefix-wrap {
