@@ -1,25 +1,26 @@
-/* ─── Variables ─────────────────────────────────────────────── */
+/* ── Variables ──────────────────────────────────────────────── */
 :root {
-  --bg:        #0d0d10;
-  --panel-bg:  #141418;
-  --border:    rgba(255,255,255,.07);
-  --accent:    #5b6ef5;
-  --accent-h:  #7b8cff;
-  --text:      #e8e8f0;
-  --muted:     #6b6b80;
-  --input-bg:  #1c1c23;
-  --danger:    #f05b5b;
-  --success:   #4fdc9a;
-  --warn:      #f0b85b;
-  --radius:    14px;
-  --panel-w:   420px;
+  --bg:         #0c0c0f;
+  --panel-bg:   #131318;
+  --panel-bd:   rgba(255,255,255,.06);
+  --accent:     #5b6ef5;
+  --accent-h:   #7b8cff;
+  --text:       #e5e5f0;
+  --muted:      #5a5a72;
+  --input-bg:   #1a1a22;
+  --input-bd:   rgba(255,255,255,.08);
+  --red:        #f05b5b;
+  --amber:      #f0a85b;
+  --green:      #4fdc9a;
+  --r:          13px;
+  --panel-w:    430px;
 }
 
-/* ─── Reset ─────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── Reset ──────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: 'DM Sans', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -29,7 +30,7 @@ body {
   overflow: hidden;
 }
 
-/* ─── Canvas background ─────────────────────────────────────── */
+/* ── Canvas ─────────────────────────────────────────────────── */
 #waveCanvas {
   position: fixed;
   inset: 0;
@@ -39,119 +40,127 @@ body {
   z-index: 0;
 }
 
-/* ─── Panel ─────────────────────────────────────────────────── */
+/* ── Panel ──────────────────────────────────────────────────── */
 .panel {
   position: relative;
   z-index: 10;
   width: var(--panel-w);
   min-height: 100vh;
   background: var(--panel-bg);
-  border-left: 1px solid var(--border);
+  border-left: 1px solid var(--panel-bd);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 48px 44px;
-  gap: 40px;
-  animation: slideIn .6s cubic-bezier(.16,1,.3,1) both;
+  padding: 52px 46px;
+  gap: 38px;
+  animation: panelIn .65s cubic-bezier(.16,1,.3,1) both;
 }
 
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(40px); }
-  to   { opacity: 1; transform: translateX(0); }
+@keyframes panelIn {
+  from { opacity:0; transform:translateX(36px); }
+  to   { opacity:1; transform:translateX(0); }
 }
 
-/* ─── Logo ──────────────────────────────────────────────────── */
+/* ── Logo ───────────────────────────────────────────────────── */
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  align-self: flex-start;
-  animation: fadeUp .5s .1s both;
+  gap: 11px;
+  animation: up .5s .06s both;
 }
 
-.logo-icon {
-  width: 38px;
-  height: 38px;
-  flex-shrink: 0;
-}
+.logo-icon { width:36px; height:36px; flex-shrink:0; }
 
 .logo-text {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .logo-name {
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 800;
-  letter-spacing: .1em;
+  letter-spacing: .12em;
   color: var(--accent);
   line-height: 1;
 }
 
 .logo-tagline {
-  font-size: 9px;
-  letter-spacing: .18em;
+  font-size: 8.5px;
+  letter-spacing: .2em;
   color: var(--muted);
-  margin-top: 3px;
+  font-family: 'DM Mono', monospace;
 }
 
-/* ─── Form ───────────────────────────────────────────────────── */
+/* ── Form wrapper ───────────────────────────────────────────── */
 .form-wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
 }
 
+/* ── Field ──────────────────────────────────────────────────── */
 .field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  animation: fadeUp .5s both;
+  gap: 7px;
+  animation: up .5s var(--delay, .1s) both;
 }
 
-.field:nth-child(1) { animation-delay: .15s; }
-.field:nth-child(2) { animation-delay: .22s; }
-
 label {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
-  letter-spacing: .04em;
+  letter-spacing: .05em;
   color: var(--text);
 }
 
-/* ─── Input wrapper ─────────────────────────────────────────── */
+/* ── Input wrapper ──────────────────────────────────────────── */
 .input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-input[type="password"],
-input[type="text"] {
+.input-icon {
+  position: absolute;
+  left: 13px;
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+input {
   width: 100%;
   background: var(--input-bg);
-  border: 1px solid var(--border);
+  border: 1px solid var(--input-bd);
   border-radius: 10px;
   color: var(--text);
-  font-size: 14px;
-  padding: 13px 44px 13px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  padding: 12px 42px 12px 38px;
   outline: none;
-  transition: border-color .2s, box-shadow .2s;
+  transition: border-color .22s, box-shadow .22s;
 }
 
 input::placeholder { color: var(--muted); }
 
 input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(91,110,245,.18);
+  box-shadow: 0 0 0 3px rgba(91,110,245,.16);
 }
 
-/* eye toggle */
-.toggle-eye {
+/* error / success state */
+input.err { border-color: var(--red)!important; box-shadow: 0 0 0 3px rgba(240,91,91,.14)!important; }
+input.ok  { border-color: var(--green)!important; }
+
+/* ── Eye button ─────────────────────────────────────────────── */
+.eye-btn {
   position: absolute;
-  right: 12px;
+  right: 11px;
   background: none;
   border: none;
   cursor: pointer;
@@ -161,51 +170,44 @@ input:focus {
   padding: 4px;
   transition: color .2s;
 }
-.toggle-eye:hover { color: var(--text); }
-.eye-icon { width: 18px; height: 18px; }
+.eye-btn:hover { color: var(--text); }
+.eye-icon { width:17px; height:17px; }
 
-/* ─── Strength bar ───────────────────────────────────────────── */
-.strength-bar {
+/* ── Strength ───────────────────────────────────────────────── */
+.strength-track {
   height: 3px;
   border-radius: 99px;
-  background: rgba(255,255,255,.07);
+  background: rgba(255,255,255,.06);
   overflow: hidden;
 }
 
-.strength-fill {
+.strength-bar {
   height: 100%;
   width: 0%;
   border-radius: 99px;
-  background: var(--danger);
-  transition: width .35s, background .35s;
+  background: var(--red);
+  transition: width .35s ease, background .35s ease;
 }
 
-.strength-label {
+.strength-text, .match-text, .field-hint {
   font-size: 11px;
-  color: var(--muted);
-  min-height: 14px;
+  min-height: 13px;
   transition: color .2s;
+  font-family: 'DM Mono', monospace;
 }
 
-/* ─── Match label ────────────────────────────────────────────── */
-.match-label {
-  font-size: 11px;
-  min-height: 14px;
-  transition: color .2s;
-}
-
-/* ─── Submit button ─────────────────────────────────────────── */
+/* ── Submit ─────────────────────────────────────────────────── */
 .submit-btn {
-  margin-top: 6px;
   width: 100%;
-  padding: 15px 24px;
+  padding: 14px 22px;
   background: var(--accent);
   color: #fff;
+  font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: .04em;
   border: none;
-  border-radius: 12px;
+  border-radius: 11px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -213,66 +215,65 @@ input:focus {
   gap: 10px;
   position: relative;
   overflow: hidden;
-  transition: background .2s, transform .15s, box-shadow .2s;
-  animation: fadeUp .5s .28s both;
+  transition: background .22s, transform .15s, box-shadow .22s;
+  animation: up .5s var(--delay, .36s) both;
+  margin-top: 4px;
 }
 
-.submit-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.12) 60%, transparent 70%);
+.submit-btn::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: linear-gradient(110deg,transparent 35%,rgba(255,255,255,.13) 55%,transparent 65%);
   transform: translateX(-100%);
   transition: transform .55s;
 }
 
-.submit-btn:hover::before { transform: translateX(100%); }
+.submit-btn:hover::after { transform:translateX(100%); }
 
 .submit-btn:hover {
   background: var(--accent-h);
-  box-shadow: 0 4px 24px rgba(91,110,245,.4);
+  box-shadow: 0 6px 28px rgba(91,110,245,.38);
   transform: translateY(-1px);
 }
+.submit-btn:active { transform:translateY(0); }
 
-.submit-btn:active { transform: translateY(0); }
-
-.btn-arrow {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
+.btn-ico {
+  width:17px; height:17px; flex-shrink:0;
   transition: transform .2s;
 }
+.submit-btn:hover .btn-ico { transform:translateX(3px); }
 
-.submit-btn:hover .btn-arrow { transform: translateX(3px); }
-
-/* ─── Sign up link ───────────────────────────────────────────── */
-.signup-link {
-  font-size: 13px;
+/* ── Footer link ────────────────────────────────────────────── */
+.footer-link {
+  font-size: 12.5px;
   color: var(--muted);
-  animation: fadeUp .5s .34s both;
+  animation: up .5s .42s both;
 }
-
-.signup-link a {
+.footer-link a {
   color: var(--accent);
-  text-decoration: none;
   font-weight: 600;
+  text-decoration: none;
   transition: color .2s;
 }
+.footer-link a:hover { color: var(--accent-h); }
 
-.signup-link a:hover { color: var(--accent-h); }
-
-/* ─── Keyframes ──────────────────────────────────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* ── Keyframes ──────────────────────────────────────────────── */
+@keyframes up {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
-/* ─── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 520px) {
-  :root { --panel-w: 100vw; }
-  .panel {
-    border-left: none;
-    min-height: 100svh;
-    padding: 40px 28px;
-  }
+@keyframes shake {
+  0%,100%{ transform:translateX(0); }
+  20%    { transform:translateX(-7px); }
+  40%    { transform:translateX(7px); }
+  60%    { transform:translateX(-4px); }
+  80%    { transform:translateX(4px); }
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media(max-width:520px){
+  :root{ --panel-w:100vw; }
+  .panel{ border-left:none; padding:36px 24px; }
 }

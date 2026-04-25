@@ -1,174 +1,220 @@
-/* ─── Wave Canvas ─────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════
+   WAVE CANVAS BACKGROUND
+══════════════════════════════════════════════════ */
 (function () {
   const canvas = document.getElementById('waveCanvas');
   const ctx    = canvas.getContext('2d');
-  let W, H, frame = 0;
+  let W, H;
 
   function resize() {
     W = canvas.width  = window.innerWidth;
     H = canvas.height = window.innerHeight;
+    // update yBase ratios on resize
+    waves.forEach(w => { w.yBase = H * w.yRatio; });
   }
-  window.addEventListener('resize', resize);
-  resize();
 
-  // Curve definitions: each wave has amplitude, frequency, speed, y-offset, color
-  const waves = [];
-  const palette = [
+  const palettes = [
     'rgba(91,110,245,',   // indigo
-    'rgba(120, 80,200,',  // violet
-    'rgba(160,100,230,',  // lavender
-    'rgba(255,255,255,',  // white ghost
+    'rgba(110, 70,210,',  // violet
+    'rgba(160, 90,230,',  // lavender
+    'rgba(240,240,255,',  // white-ish
   ];
 
-  for (let i = 0; i < 28; i++) {
-    const band = Math.floor(Math.random() * palette.length);
-    waves.push({
-      amp:   40  + Math.random() * 120,
-      freq:  0.003 + Math.random() * 0.006,
-      speed: 0.003 + Math.random() * 0.007,
+  // Build waves once
+  const waves = Array.from({ length: 30 }, () => {
+    const yRatio = 0.1 + Math.random() * 0.8;
+    const band   = Math.floor(Math.random() * palettes.length);
+    return {
+      amp:   35  + Math.random() * 130,
+      freq:  0.0025 + Math.random() * 0.007,
+      speed: 0.002  + Math.random() * 0.008,
       phase: Math.random() * Math.PI * 2,
-      yBase: H * (0.15 + Math.random() * 0.75),
-      color: palette[band],
-      alpha: 0.04 + Math.random() * 0.14,
-    });
-  }
+      yRatio,
+      yBase: 0,           // set in resize()
+      color: palettes[band],
+      alpha: 0.035 + Math.random() * 0.13,
+      lw:    0.9 + Math.random() * 0.8,
+    };
+  });
+
+  resize();
+  window.addEventListener('resize', resize);
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
-
     waves.forEach(w => {
-      // update yBase lazily so it stays relative after resize
       w.phase += w.speed;
       ctx.beginPath();
-      ctx.moveTo(0, H);
-
-      for (let x = 0; x <= W; x += 3) {
+      for (let x = 0; x <= W; x += 4) {
         const y = w.yBase
           + Math.sin(x * w.freq + w.phase) * w.amp
-          + Math.sin(x * w.freq * 0.4 + w.phase * 1.3) * w.amp * 0.4;
-        if (x === 0) ctx.moveTo(x, y);
-        else         ctx.lineTo(x, y);
+          + Math.sin(x * w.freq * 0.38 + w.phase * 1.4) * w.amp * 0.38;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
-
       ctx.strokeStyle = w.color + w.alpha + ')';
-      ctx.lineWidth   = 1.2;
+      ctx.lineWidth   = w.lw;
       ctx.stroke();
     });
-
-    frame++;
     requestAnimationFrame(draw);
   }
-
   draw();
 })();
 
 
-/* ─── Password Strength ───────────────────────────────────────────── */
-const newPwdInput   = document.getElementById('newPassword');
-const confirmInput  = document.getElementById('confirmPassword');
-const strengthFill  = document.getElementById('strengthFill');
-const strengthLabel = document.getElementById('strengthLabel');
-const matchLabel    = document.getElementById('matchLabel');
+/* ══════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════ */
+const $ = id => document.getElementById(id);
 
-function getStrength(pwd) {
-  let score = 0;
-  if (pwd.length >= 8)                    score++;
-  if (pwd.length >= 12)                   score++;
-  if (/[A-Z]/.test(pwd))                  score++;
-  if (/[0-9]/.test(pwd))                  score++;
-  if (/[^A-Za-z0-9]/.test(pwd))          score++;
-  return score; // 0–5
+function setErr(input, msg, el) {
+  input.classList.add('err');
+  input.classList.remove('ok');
+  el.textContent  = msg;
+  el.style.color  = 'var(--red)';
 }
 
-const levels = [
-  { pct: '0%',   color: '#f05b5b', label: '' },
-  { pct: '20%',  color: '#f05b5b', label: 'Weak' },
-  { pct: '40%',  color: '#f0b85b', label: 'Fair' },
-  { pct: '65%',  color: '#f0b85b', label: 'Good' },
-  { pct: '85%',  color: '#4fdc9a', label: 'Strong' },
-  { pct: '100%', color: '#4fdc9a', label: 'Very strong' },
-];
-
-newPwdInput.addEventListener('input', () => {
-  const pwd   = newPwdInput.value;
-  const score = pwd.length ? getStrength(pwd) : 0;
-  const lv    = levels[score];
-  strengthFill.style.width      = lv.pct;
-  strengthFill.style.background = lv.color;
-  strengthLabel.textContent     = lv.label;
-  strengthLabel.style.color     = lv.color;
-  validateMatch();
-});
-
-/* ─── Match Validation ────────────────────────────────────────────── */
-confirmInput.addEventListener('input', validateMatch);
-
-function validateMatch() {
-  const a = newPwdInput.value;
-  const b = confirmInput.value;
-  if (!b) { matchLabel.textContent = ''; return; }
-  if (a === b) {
-    matchLabel.textContent = '✓ Passwords match';
-    matchLabel.style.color = '#4fdc9a';
-  } else {
-    matchLabel.textContent = '✗ Passwords do not match';
-    matchLabel.style.color = '#f05b5b';
-  }
+function setOk(input, msg, el) {
+  input.classList.remove('err');
+  input.classList.add('ok');
+  el.textContent  = msg;
+  el.style.color  = 'var(--green)';
 }
 
-/* ─── Eye Toggle ──────────────────────────────────────────────────── */
-document.querySelectorAll('.toggle-eye').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const targetId = btn.dataset.target;
-    const input    = document.getElementById(targetId);
-    const isHidden = input.type === 'password';
-    input.type = isHidden ? 'text' : 'password';
-    btn.querySelector('.eye-icon').style.opacity = isHidden ? '.5' : '1';
-  });
-});
-
-/* ─── Submit ──────────────────────────────────────────────────────── */
-document.getElementById('submitBtn').addEventListener('click', () => {
-  const pwd     = newPwdInput.value;
-  const confirm = confirmInput.value;
-
-  if (!pwd || !confirm) {
-    shake(pwd ? confirmInput : newPwdInput);
-    return;
-  }
-  if (pwd !== confirm) {
-    shake(confirmInput);
-    return;
-  }
-  if (getStrength(pwd) < 2) {
-    shake(newPwdInput);
-    strengthLabel.textContent = 'Password is too weak';
-    strengthLabel.style.color = '#f05b5b';
-    return;
-  }
-
-  // Success feedback
-  const btn = document.getElementById('submitBtn');
-  btn.querySelector('.btn-text').textContent = 'Password updated ✓';
-  btn.style.background = '#4fdc9a';
-  btn.style.color      = '#0d0d10';
-  btn.disabled         = true;
-});
+function clearState(input, el) {
+  input.classList.remove('err','ok');
+  el.textContent = '';
+}
 
 function shake(el) {
   el.style.animation = 'none';
-  el.getBoundingClientRect(); // reflow
+  el.getBoundingClientRect();
   el.style.animation = 'shake .4s ease';
 }
 
-/* ─── Inject shake keyframe ───────────────────────────────────────── */
-const style = document.createElement('style');
-style.textContent = `
-@keyframes shake {
-  0%,100%{ transform: translateX(0); }
-  20%    { transform: translateX(-6px); }
-  40%    { transform: translateX(6px); }
-  60%    { transform: translateX(-4px); }
-  80%    { transform: translateX(4px); }
-}`;
-document.head.appendChild(style);
+
+/* ══════════════════════════════════════════════════
+   EMAIL VALIDATION
+══════════════════════════════════════════════════ */
+const emailInput = $('emailInput');
+const emailHint  = $('emailHint');
+
+emailInput.addEventListener('input', () => {
+  const val = emailInput.value.trim();
+  if (!val) { clearState(emailInput, emailHint); return; }
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+  valid
+    ? setOk(emailInput,  '✓ Email valid',   emailHint)
+    : setErr(emailInput, '✗ Format email tidak valid', emailHint);
+});
+
+
+/* ══════════════════════════════════════════════════
+   PASSWORD STRENGTH
+══════════════════════════════════════════════════ */
+const newPwd      = $('newPassword');
+const strBar      = $('strengthBar');
+const strText     = $('strengthText');
+
+const levels = [
+  { pct:'0%',   bg:'var(--red)',   label:'' },
+  { pct:'22%',  bg:'var(--red)',   label:'Lemah' },
+  { pct:'44%',  bg:'var(--amber)', label:'Cukup' },
+  { pct:'66%',  bg:'var(--amber)', label:'Baik' },
+  { pct:'88%',  bg:'var(--green)', label:'Kuat' },
+  { pct:'100%', bg:'var(--green)', label:'Sangat Kuat' },
+];
+
+function calcStrength(p) {
+  let s = 0;
+  if (p.length >= 8)           s++;
+  if (p.length >= 12)          s++;
+  if (/[A-Z]/.test(p))        s++;
+  if (/[0-9]/.test(p))        s++;
+  if (/[^A-Za-z0-9]/.test(p)) s++;
+  return s;
+}
+
+newPwd.addEventListener('input', () => {
+  const val = newPwd.value;
+  const sc  = val.length ? calcStrength(val) : 0;
+  const lv  = levels[sc];
+  strBar.style.width      = lv.pct;
+  strBar.style.background = lv.bg;
+  strText.textContent     = lv.label;
+  strText.style.color     = lv.bg;
+  validateMatch();
+});
+
+
+/* ══════════════════════════════════════════════════
+   CONFIRM PASSWORD MATCH
+══════════════════════════════════════════════════ */
+const confirmPwd = $('confirmPassword');
+const matchText  = $('matchText');
+
+function validateMatch() {
+  const a = newPwd.value;
+  const b = confirmPwd.value;
+  if (!b) { clearState(confirmPwd, matchText); return; }
+  a === b
+    ? setOk(confirmPwd,  '✓ Password cocok',        matchText)
+    : setErr(confirmPwd, '✗ Password tidak cocok',  matchText);
+}
+
+confirmPwd.addEventListener('input', validateMatch);
+
+
+/* ══════════════════════════════════════════════════
+   EYE TOGGLE
+══════════════════════════════════════════════════ */
+document.querySelectorAll('.eye-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const inp  = $(btn.dataset.target);
+    const show = inp.type === 'password';
+    inp.type   = show ? 'text' : 'password';
+    btn.querySelector('.eye-icon').style.opacity = show ? '.45' : '1';
+  });
+});
+
+
+/* ══════════════════════════════════════════════════
+   SUBMIT
+══════════════════════════════════════════════════ */
+$('submitBtn').addEventListener('click', () => {
+  const email   = emailInput.value.trim();
+  const pwd     = newPwd.value;
+  const conf    = confirmPwd.value;
+  let valid     = true;
+
+  // email check
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setErr(emailInput, '✗ Masukkan email yang valid', emailHint);
+    shake(emailInput);
+    valid = false;
+  }
+
+  // new password check
+  if (!pwd || calcStrength(pwd) < 2) {
+    strText.textContent = '✗ Password terlalu lemah';
+    strText.style.color = 'var(--red)';
+    shake(newPwd);
+    valid = false;
+  }
+
+  // confirm check
+  if (!conf || pwd !== conf) {
+    setErr(confirmPwd, '✗ Password tidak cocok', matchText);
+    shake(confirmPwd);
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  // SUCCESS
+  const btn = $('submitBtn');
+  btn.querySelector('.btn-label').textContent = 'Password berhasil diubah ✓';
+  btn.style.background = 'var(--green)';
+  btn.style.color      = '#0c0c0f';
+  btn.disabled         = true;
+  btn.querySelector('.btn-ico').style.display = 'none';
+});

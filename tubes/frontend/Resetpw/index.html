@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Campren – Reset Password</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Animated background canvas -->
   <canvas id="waveCanvas"></canvas>
 
-  <!-- Right panel -->
   <div class="panel">
+
+    <!-- Logo -->
     <div class="logo">
-      <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="4,32 14,18 22,24 32,8" stroke="#5b6ef5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        <polyline points="28,8 36,8 36,16" stroke="#5b6ef5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <svg class="logo-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="5,35 16,19 24,26 35,8" stroke="#5b6ef5" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="30,8 38,8 38,16"        stroke="#5b6ef5" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <div class="logo-text">
         <span class="logo-name">CAMPREN</span>
@@ -24,48 +26,74 @@
       </div>
     </div>
 
+    <!-- Form -->
     <div class="form-wrapper">
-      <div class="field">
+
+      <!-- Email -->
+      <div class="field" style="--delay:.12s">
+        <label for="emailInput">Masukkan Email</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="2" y="5" width="16" height="12" rx="2"/>
+            <polyline points="2,5 10,12 18,5"/>
+          </svg>
+          <input type="email" id="emailInput" placeholder="Insert your email" autocomplete="email"/>
+        </div>
+        <span class="field-hint" id="emailHint"></span>
+      </div>
+
+      <!-- New Password -->
+      <div class="field" style="--delay:.20s">
         <label for="newPassword">New Password</label>
         <div class="input-wrapper">
-          <input type="password" id="newPassword" placeholder="Enter new password" autocomplete="new-password" />
-          <button class="toggle-eye" data-target="newPassword" tabindex="-1" aria-label="Toggle visibility">
-            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
+          <svg class="input-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="4" y="9" width="12" height="9" rx="2"/>
+            <path d="M7 9V6a3 3 0 0 1 6 0v3"/>
+          </svg>
+          <input type="password" id="newPassword" placeholder="Insert your new password" autocomplete="new-password"/>
+          <button class="eye-btn" data-target="newPassword" tabindex="-1" aria-label="Toggle password">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" class="eye-icon">
+              <path d="M1 10s3.5-7 9-7 9 7 9 7-3.5 7-9 7-9-7-9-7z"/>
+              <circle cx="10" cy="10" r="2.5"/>
             </svg>
           </button>
         </div>
-        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
-        <span class="strength-label" id="strengthLabel"></span>
+        <div class="strength-track"><div class="strength-bar" id="strengthBar"></div></div>
+        <span class="strength-text" id="strengthText"></span>
       </div>
 
-      <div class="field">
+      <!-- Confirm Password -->
+      <div class="field" style="--delay:.28s">
         <label for="confirmPassword">Confirm Password</label>
         <div class="input-wrapper">
-          <input type="password" id="confirmPassword" placeholder="Re-enter new password" autocomplete="new-password" />
-          <button class="toggle-eye" data-target="confirmPassword" tabindex="-1" aria-label="Toggle visibility">
-            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
+          <svg class="input-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M9 12l2 2 4-4"/>
+            <rect x="4" y="9" width="12" height="9" rx="2"/>
+            <path d="M7 9V6a3 3 0 0 1 6 0v3"/>
+          </svg>
+          <input type="password" id="confirmPassword" placeholder="Insert confirm password" autocomplete="new-password"/>
+          <button class="eye-btn" data-target="confirmPassword" tabindex="-1" aria-label="Toggle confirm">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" class="eye-icon">
+              <path d="M1 10s3.5-7 9-7 9 7 9 7-3.5 7-9 7-9-7-9-7z"/>
+              <circle cx="10" cy="10" r="2.5"/>
             </svg>
           </button>
         </div>
-        <span class="match-label" id="matchLabel"></span>
+        <span class="match-text" id="matchText"></span>
       </div>
 
-      <button class="submit-btn" id="submitBtn">
-        <span class="btn-text">Make a new password</span>
-        <svg class="btn-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+      <!-- Submit -->
+      <button class="submit-btn" id="submitBtn" style="--delay:.36s">
+        <span class="btn-label">Make a new password</span>
+        <svg class="btn-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="3" y1="10" x2="17" y2="10"/>
           <polyline points="11,4 17,10 11,16"/>
         </svg>
       </button>
     </div>
 
-    <p class="signup-link">Don't have an account? <a href="#">Sign Up</a></p>
+    <p class="footer-link">Don't have an account? <a href="#">Sign Up</a></p>
   </div>
 
   <script src="script.js"></script>
 </body>
-</html>
