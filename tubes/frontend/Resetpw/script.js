@@ -181,19 +181,21 @@ document.querySelectorAll('.eye-btn').forEach(btn => {
    SUBMIT
 ══════════════════════════════════════════════════ */
 $('submitBtn').addEventListener('click', () => {
-  const email   = emailInput.value.trim();
-  const pwd     = newPwd.value;
-  const conf    = confirmPwd.value;
-  let valid     = true;
 
-  // email check
+  const email = emailInput.value.trim();
+  const pwd   = newPwd.value;
+  const conf  = confirmPwd.value;
+
+  let valid = true;
+
+  // email
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    setErr(emailInput, '✗ Masukkan email yang valid', emailHint);
+    setErr(emailInput, '✗ Masukkan email valid', emailHint);
     shake(emailInput);
     valid = false;
   }
 
-  // new password check
+  // password
   if (!pwd || calcStrength(pwd) < 2) {
     strText.textContent = '✗ Password terlalu lemah';
     strText.style.color = 'var(--red)';
@@ -201,7 +203,7 @@ $('submitBtn').addEventListener('click', () => {
     valid = false;
   }
 
-  // confirm check
+  // confirm
   if (!conf || pwd !== conf) {
     setErr(confirmPwd, '✗ Password tidak cocok', matchText);
     shake(confirmPwd);
@@ -210,11 +212,48 @@ $('submitBtn').addEventListener('click', () => {
 
   if (!valid) return;
 
-  // SUCCESS
   const btn = $('submitBtn');
-  btn.querySelector('.btn-label').textContent = 'Password berhasil diubah ✓';
-  btn.style.background = 'var(--green)';
-  btn.style.color      = '#0c0c0f';
-  btn.disabled         = true;
-  btn.querySelector('.btn-ico').style.display = 'none';
+  btn.disabled = true;
+  btn.querySelector('.btn-label').textContent = 'Processing...';
+
+  fetch("http://localhost:8080/api/change-password", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      email: email,
+      password: pwd
+    })
+  })
+  .then(response => response.text())
+  .then(result => {
+
+    btn.disabled = false;
+
+    if (result === "success") {
+
+      btn.querySelector('.btn-label').textContent = 'Password berhasil diubah ✓';
+      btn.style.background = 'var(--green)';
+      btn.style.color = '#0c0c0f';
+
+    } else if (result === "email not found") {
+
+      btn.querySelector('.btn-label').textContent = 'Make a new password';
+      setErr(emailInput, '✗ Email tidak ditemukan', emailHint);
+
+    } else {
+
+      alert("Gagal mengubah password");
+
+    }
+
+  })
+  .catch(error => {
+    btn.disabled = false;
+    btn.querySelector('.btn-label').textContent = 'Make a new password';
+    alert("Server error");
+    console.log(error);
+  });
+
 });

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2026 at 06:57 PM
+-- Generation Time: Apr 25, 2026 at 06:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,7 @@ CREATE TABLE `campaigns` (
 
 CREATE TABLE `pelanggan` (
   `email` varchar(255) NOT NULL,
-  `nama` varchar(255) NOT NULL,
+  `nama` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -54,8 +54,8 @@ CREATE TABLE `pelanggan` (
 --
 
 INSERT INTO `pelanggan` (`email`, `nama`, `password`) VALUES
-('darrenstraight@gmail.com', 'Darren Christian Lomban', 'ganteng123'),
-('yafigay@gmail.com', 'Yafi Alifudin Pranaja', 'azmijuga123');
+('darrenclomban@gmailnih.com', 'Darren Christian Lomban', 'wowpasswordkeren'),
+('testing3481@gmail.com', 'darren', 'halopasswordsudahdiganti');
 
 -- --------------------------------------------------------
 
