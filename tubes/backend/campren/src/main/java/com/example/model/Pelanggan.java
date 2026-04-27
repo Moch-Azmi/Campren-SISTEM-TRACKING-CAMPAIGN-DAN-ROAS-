@@ -7,11 +7,9 @@ import jakarta.persistence.*;
 public class Pelanggan {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    @Column(unique = true)
     private String email;
 
+    private String nama;
     private String password;
 
     public String getEmail() {
@@ -22,6 +20,14 @@ public class Pelanggan {
         this.email = email;
     }
 
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -29,5 +35,4 @@ public class Pelanggan {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }

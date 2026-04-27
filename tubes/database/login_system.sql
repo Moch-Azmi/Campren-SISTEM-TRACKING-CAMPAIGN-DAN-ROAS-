@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2026 at 06:26 AM
+-- Generation Time: Apr 27, 2026 at 04:57 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,8 +34,16 @@ CREATE TABLE `campaigns` (
   `nama_campaign` varchar(255) NOT NULL,
   `budget` int(11) NOT NULL,
   `tanggal_mulai` date NOT NULL,
-  `tanggal_akhir` date NOT NULL
+  `tanggal_akhir` date NOT NULL,
+  `email` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `campaigns`
+--
+
+INSERT INTO `campaigns` (`campaign_id`, `user_id`, `platform_id`, `nama_campaign`, `budget`, `tanggal_mulai`, `tanggal_akhir`, `email`) VALUES
+(4, 3, 1, 'Promo Ramadhan 2', 500000, '2026-04-27', '2026-05-10', NULL);
 
 -- --------------------------------------------------------
 
@@ -54,8 +62,7 @@ CREATE TABLE `pelanggan` (
 --
 
 INSERT INTO `pelanggan` (`email`, `nama`, `password`) VALUES
-('darrenclomban@gmailnih.com', 'Darren Christian Lomban', 'wowpasswordkeren'),
-('testing3481@gmail.com', 'darren', 'halopasswordsudahdiganti');
+('darrenuhuyyyy@gmail.com', 'Darren Kecee', '12345678');
 
 -- --------------------------------------------------------
 
@@ -73,6 +80,13 @@ CREATE TABLE `performance_metrics` (
   `conversions` bigint(20) NOT NULL,
   `revenue` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `performance_metrics`
+--
+
+INSERT INTO `performance_metrics` (`id`, `campaign_id`, `tanggal`, `impression`, `clicks`, `cost`, `conversions`, `revenue`) VALUES
+(1, 4, '2026-04-27', 50000, 36500, 500000, 11250, 1750000);
 
 -- --------------------------------------------------------
 
@@ -97,6 +111,15 @@ CREATE TABLE `platforms` (
   `deskripsi` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `platforms`
+--
+
+INSERT INTO `platforms` (`platform_id`, `nama_platform`, `deskripsi`) VALUES
+(1, 'Instagram', NULL),
+(2, 'Tiktok', NULL),
+(3, 'Youtube', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -107,6 +130,14 @@ CREATE TABLE `roles` (
   `role_id` int(10) UNSIGNED NOT NULL,
   `nama_role` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`role_id`, `nama_role`) VALUES
+(2, 'Admin'),
+(1, 'User');
 
 -- --------------------------------------------------------
 
@@ -131,6 +162,13 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `role_id`, `email`, `nama`) VALUES
+(3, 1, 'darrenuhuyyyy@gmail.com', 'Darren Kecee');
 
 --
 -- Indexes for dumped tables
@@ -199,13 +237,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `campaigns`
 --
 ALTER TABLE `campaigns`
-  MODIFY `campaign_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `campaign_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `performance_metrics`
 --
 ALTER TABLE `performance_metrics`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -217,19 +255,19 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `platforms`
 --
 ALTER TABLE `platforms`
-  MODIFY `platform_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `platform_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `role_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `role_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
