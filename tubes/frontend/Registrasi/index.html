@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campren — Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <canvas id="waveCanvas"></canvas>
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+
+      <!-- Header -->
+      <div class="auth-header">
+        <h1 class="welcome-text">
+          Welcome To
+          <span class="brand-name">
+            CAMPREN
+            <svg class="brand-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <polyline points="3,17 9,11 13,15 21,5" stroke="#5b5ef4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="17,5 21,5 21,9"        stroke="#5b5ef4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </h1>
+        <p class="brand-tagline">EXPLORE. ANALYZE. GROWTH.</p>
+      </div>
+
+      <!-- Form -->
+      <div class="auth-form">
+
+        <!-- Nama Lengkap -->
+        <div class="field-group">
+          <label class="field-label" for="fullname">Nama Lengkap</label>
+          <div class="input-wrapper">
+            <input
+              class="field-input"
+              type="text"
+              id="fullname"
+              placeholder="Masukkan nama lengkap"
+              autocomplete="name"
+            />
+            <span class="input-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+          </div>
+          <span class="field-error" id="fullname-error"></span>
+        </div>
+
+        <!-- Email -->
+        <div class="field-group">
+          <label class="field-label" for="email">Email</label>
+          <div class="input-wrapper">
+            <input
+              class="field-input"
+              type="email"
+              id="email"
+              placeholder="Insert your email"
+              autocomplete="email"
+            />
+            <span class="input-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="M2 7l10 7 10-7"/>
+              </svg>
+            </span>
+          </div>
+          <span class="field-error" id="email-error"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group">
+          <label class="field-label" for="password">Password</label>
+          <div class="input-wrapper">
+            <input
+              class="field-input"
+              type="password"
+              id="password"
+              placeholder="Insert your password"
+              autocomplete="new-password"
+            />
+            <button type="button" class="toggle-password input-icon" data-target="password" aria-label="Toggle password">
+              <svg class="eye-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" id="password-error"></span>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="field-group">
+          <label class="field-label" for="confirm-password">Confirm Password</label>
+          <div class="input-wrapper">
+            <input
+              class="field-input"
+              type="password"
+              id="confirm-password"
+              placeholder="Insert your password"
+              autocomplete="new-password"
+            />
+            <button type="button" class="toggle-password input-icon" data-target="confirm-password" aria-label="Toggle password">
+              <svg class="eye-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" id="confirm-password-error"></span>
+        </div>
+
+        <!-- Submit -->
+        <button class="btn-signup" id="signupBtn" type="button">
+          <span class="btn-text">Sign Up</span>
+          <span class="btn-loader" id="btnLoader"></span>
+        </button>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="auth-footer">
+        <span class="footer-text">Already have an account?</span>
+        <a href="#" class="footer-link">Log in</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
