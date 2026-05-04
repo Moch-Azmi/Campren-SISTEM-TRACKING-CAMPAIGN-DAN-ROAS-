@@ -15,10 +15,10 @@
 
 # DATA FLOW DIAGRAM (DFD)
 ## DFD level 0
-[!dfd0](dfd0.jpeg)
+![dfd0](dfd0.jpeg)
 
 ## DFD level 1
-[!dfd1](dfd1.jpeg)
+![dfd1](dfd1.jpeg)
 
 ---
 
