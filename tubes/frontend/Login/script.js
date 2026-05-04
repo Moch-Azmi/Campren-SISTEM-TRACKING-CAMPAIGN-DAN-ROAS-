@@ -6,6 +6,31 @@ const passwordInput = document.getElementById('password');
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function login() {
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    fetch("http://localhost:8080/api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+    .then(res => res.text())
+    .then(data => {
+        if (data === "registered") {
+            // PINDAH KE DASHBOARD
+            window.location.href = "../Dashboard/index.html";
+        } else {
+            alert("Login gagal");
+        }
+    });
+}
+
 function validateEmail(email) {
     return emailRegex.test(email);
 }
@@ -181,6 +206,8 @@ googleSignInBtn.addEventListener('click', handleGoogleSignIn);
 
 document.querySelector('.forgot-password').addEventListener('click', handleForgotPassword);
 document.querySelector('.signup-link').addEventListener('click', handleSignUp);
+
+window.location.href = "../Dashboard/index.html";
 
 window.addEventListener('load', () => {
     emailInput.focus();
