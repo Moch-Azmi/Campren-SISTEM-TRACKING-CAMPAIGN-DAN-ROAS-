@@ -8,3 +8,13 @@
 
 # ERD
 ![erd](erd.jpeg)
+
+# Mockup
+## Login
+![loginpage](login.jpeg)
+
+## Dashboard
+![dashboardpage](dashboard.jpeg)
+
+##Input Data Campaign
+![inputdatacampaign](inputdata.jpeg)
