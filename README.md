@@ -6,4 +6,5 @@
  - Siti Zahratun Aini
  - Yafi Alifudin Pranaja
 
-# 
+# ERD
+![erd](erd.jpeg)
