@@ -28,3 +28,11 @@
 | ![loginpage](login.jpeg) | ![dashboardpage](dahboard.jpeg) |  ![inputdatacampaign](inputdata.jpeg) |
 
 ---
+
+# Bahasa Pemrograman & Software
+- **Frontend:** HTML, CSS, JS
+- **Backend:** Java
+- **Database:** MySQL
+- **UI Design:** Figma
+
+---
