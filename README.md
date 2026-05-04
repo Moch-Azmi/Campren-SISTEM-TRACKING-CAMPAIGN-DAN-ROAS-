@@ -1,4 +1,4 @@
-# Aplikasi Campren
+# CAMPREN
 ## Aplikasi Campren adalah aplikasi yang berfungsi untuk menghitung revenue dan roas dari campaign
  Anggota: 
  - Darren Christian Lomban
@@ -6,15 +6,25 @@
  - Siti Zahratun Aini
  - Yafi Alifudin Pranaja
 
+---
+
 # ERD
 ![erd](erd.jpeg)
 
-# Mockup
-## Login
-![loginpage](login.jpeg)
+---
 
-## Dashboard
-![dashboardpage](dashboard.jpeg)
+# DATA FLOW DIAGRAM (DFD)
+## DFD level 0
+[!dfd0](dfd0.jpeg)
 
-##Input Data Campaign
-![inputdatacampaign](inputdata.jpeg)
+## DFD level 1
+[!dfd1](dfd1.jpeg)
+
+---
+
+# Mockup Antarmuka
+| Login Page | Dashboard | Input Data Campaign |
+| ---------- | --------- | ------------------- |
+| ![loginpage](login.jpeg) | ![dashboardpage](dahboard.jpeg) |  ![inputdatacampaign](inputdata.jpeg) |
+
+---
